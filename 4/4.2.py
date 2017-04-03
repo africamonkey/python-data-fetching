@@ -94,8 +94,10 @@ while needToGet.size>0:
 
         try:
             contents = []
-            comments = jsonObject['data']
             jsonObject = getJSONObject(pid, page)
+            if ('data' not in jsonObject):
+                continue
+            comments = jsonObject['data']
 
             for comment in comments:
                 contents.append(comment['raw_text'])
