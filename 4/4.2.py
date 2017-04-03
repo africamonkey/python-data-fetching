@@ -29,7 +29,7 @@ def getJSONObject(weiboId, page):
         jsonString = jsonBytes.decode('utf8')
         jsonObject = json.loads(jsonString)
 
-        if 'data' not in jsonObject:
+        if (('data' not in jsonObject) and (jsonObject['ok'] != 0)):
             sleepSecond = sleepSecond+5
             print("遭受限制~~~，%s 秒后重试" % (sleepSecond))
             continue
@@ -53,6 +53,8 @@ pages = []
 for pid in weiboIds:
     page = 1
     jsonObject = getJSONObject(pid, page)
+    if 'max' not in jsonObject:
+        continue
     totalPage = jsonObject['max']
     for page in range(1, totalPage+1):
         pages.append(page)
